@@ -1,1 +1,7 @@
+# I'm generated via a notebook and pushed via Github Actions!
 algorithmia>=1.0.0,<2.0
+scikit-learn
+pandas
+numpy
+joblib
+xgboost
