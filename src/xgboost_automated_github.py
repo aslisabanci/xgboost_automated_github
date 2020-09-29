@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[4]:
 
 
 import Algorithmia
@@ -13,12 +13,12 @@ import pandas as pd
 import hashlib
 
 
-# In[10]:
+# In[7]:
 
 
 #Github Action will convert this ipynb into a py file.
 
-client = Algorithmia.client()
+client = Algorithmia.client("simO2c+JUCueNr/Bj0XdWsPtiQy1")
 
 def load_model_config(config_rel_path="model_config.json"):
     """Loads the model manifest file as a dict. 
@@ -95,11 +95,11 @@ def apply(input):
     }
 
 
-# In[11]:
+# In[9]:
 
 
 if __name__ == "__main__":
-    algo_input = "It was a"
+    algo_input = "It was a great purchase"
     print(f"Calling algorithm apply() func with input: {algo_input}")
 
     algo_result = apply(algo_input)
