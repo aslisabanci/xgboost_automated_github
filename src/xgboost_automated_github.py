@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
 import Algorithmia
 import json
 import os.path
@@ -6,11 +12,15 @@ import xgboost
 import pandas as pd
 import hashlib
 
-#I'm generated via a notebook and pushed via Github Actions!
+
+# In[10]:
+
+
+#Github Action will convert this ipynb into a py file.
 
 client = Algorithmia.client()
 
-def load_model_config(config_rel_path="../model_config.json"):
+def load_model_config(config_rel_path="model_config.json"):
     """Loads the model manifest file as a dict. 
     A manifest file has the following structure:
     {
@@ -23,7 +33,7 @@ def load_model_config(config_rel_path="../model_config.json"):
     }
     """
     config = []
-    config_path = "{}/{}".format(os.path.dirname(__file__), (config_rel_path))
+    config_path = "{}/{}".format(os.getcwd(), (config_rel_path))
     if os.path.exists(config_path):
         with open(config_path) as json_file:
             config = json.load(json_file)
@@ -83,3 +93,21 @@ def apply(input):
             "origin_commit_msg": config["model_origin_commit_msg"]
         }
     }
+
+
+# In[11]:
+
+
+if __name__ == "__main__":
+    algo_input = "It was a"
+    print(f"Calling algorithm apply() func with input: {algo_input}")
+
+    algo_result = apply(algo_input)
+    print(algo_result)
+
+
+# In[ ]:
+
+
+
+
