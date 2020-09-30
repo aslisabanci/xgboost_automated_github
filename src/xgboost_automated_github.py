@@ -16,9 +16,10 @@ import hashlib
 # In[14]:
 
 
-#Github Action will convert this ipynb into a py file.
+# Github Action will convert this ipynb into a py file.
 
-client = Algorithmia.client("simO2c+JUCueNr/Bj0XdWsPtiQy1")
+client = Algorithmia.client()
+
 
 def load_model_config(config_rel_path="model_config.json"):
     """Loads the model manifest file as a dict. 
@@ -47,6 +48,7 @@ def load_model(config):
     model_obj = joblib.load(model_file)
     return model_file, model_obj
 
+
 def assert_model_md5(model_file):
     """
     Calculates the loaded model file's MD5 and compares the actual file hash with the hash on the model manifest
@@ -62,7 +64,8 @@ def assert_model_md5(model_file):
         md5_hash = hasher.hexdigest()
     assert config["model_md5_hash"] == md5_hash
     print("Model file MD5 assertion done.")
-    
+
+
 def assert_model_pipeline_steps(model_obj):
     """For demonstration purposes, asserts that the XGBoost model has the expected pipeline steps.
     """
@@ -85,13 +88,13 @@ def apply(input):
     series_input = pd.Series([input])
     result = xgb_obj.predict(series_input)
     return {
-        "sentiment": result.tolist()[0], 
+        "sentiment": result.tolist()[0],
         "predicting_model_metadata": {
             "model_file": config["model_filepath"],
-            "origin_repo": config["model_origin_repo"], 
-            "origin_commit_SHA": config["model_origin_commit_SHA"], 
-            "origin_commit_msg": config["model_origin_commit_msg"]
-        }
+            "origin_repo": config["model_origin_repo"],
+            "origin_commit_SHA": config["model_origin_commit_SHA"],
+            "origin_commit_msg": config["model_origin_commit_msg"],
+        },
     }
 
 
@@ -107,7 +110,4 @@ if __name__ == "__main__":
 
 
 # In[ ]:
-
-
-
 
