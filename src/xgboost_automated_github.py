@@ -10,7 +10,7 @@ import hashlib
 client = Algorithmia.client()
 
 
-def load_model_config(config_rel_path="model_config.json"):
+def load_model_manifest(rel_path="model_manifest.json"):
     """Loads the model manifest file as a dict. 
     A manifest file has the following structure:
     {
@@ -23,20 +23,24 @@ def load_model_config(config_rel_path="model_config.json"):
       "model_uploaded_utc": UTC timestamp of the automated model upload
     }
     """
-    config = []
-    config_path = "{}/{}".format(os.getcwd(), (config_rel_path))
-    if os.path.exists(config_path):
-        with open(config_path) as json_file:
-            config = json.load(json_file)
-    return config
+    manifest = []
+    manifest_path = "{}/{}".format(os.getcwd(), (rel_path))
+    if os.path.exists(manifest_path):
+        with open(manifest_path) as json_file:
+            manifest = json.load(json_file)
+    return manifest
 
 
-def load_model(config):
+def load_model(manifest):
     """Loads the model object from the file at model_filepath key in config dict"""
-    model_path = config["model_filepath"]
-    model_file = client.file(model_path).getFile().name
+    model_path = manifest["model_filepath"]
+    if __name__ == "__main__":
+        model_file = model_path
+    else:
+        model_file = client.file(model_path).getFile().name
+        assert_model_md5(model_file)
     model_obj = joblib.load(model_file)
-    return model_file, model_obj
+    return model_obj
 
 
 def assert_model_md5(model_file):
@@ -52,13 +56,12 @@ def assert_model_md5(model_file):
             hasher.update(buf)
             buf = f.read(DIGEST_BLOCK_SIZE)
         md5_hash = hasher.hexdigest()
-    assert config["model_md5_hash"] == md5_hash
+    assert manifest["model_md5_hash"] == md5_hash
     print("Model file's runtime MD5 hash equals to the upload time hash, great!")
 
 
-config = load_model_config()
-xgb_path, xgb_obj = load_model(config)
-assert_model_md5(xgb_path)
+manifest = load_model_manifest()
+xgb_obj = load_model(manifest)
 
 
 # API calls will begin at the apply() method, with the request body passed as 'input'
@@ -69,10 +72,10 @@ def apply(input):
     return {
         "sentiment": result.tolist()[0],
         "predicting_model_metadata": {
-            "model_file": config["model_filepath"],
-            "origin_repo": config["model_origin_repo"],
-            "origin_commit_SHA": config["model_origin_commit_SHA"],
-            "origin_commit_msg": config["model_origin_commit_msg"],
+            "model_file": manifest["model_filepath"],
+            "origin_repo": manifest["model_origin_repo"],
+            "origin_commit_SHA": manifest["model_origin_commit_SHA"],
+            "origin_commit_msg": manifest["model_origin_commit_msg"],
         },
     }
 
