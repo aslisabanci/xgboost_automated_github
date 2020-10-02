@@ -9,8 +9,6 @@ import hashlib
 
 client = Algorithmia.client()
 
-# This file should be updated via Github Actions!
-
 
 def load_model_config(config_rel_path="model_config.json"):
     """Loads the model manifest file as a dict. 
@@ -18,7 +16,8 @@ def load_model_config(config_rel_path="model_config.json"):
     {
       "model_filepath": Uploaded model path on Algorithmia data collection
       "model_md5_hash": MD5 hash of the uploaded model file
-      "model_origin_repo": Model development repository having the Github CI workflow
+      "model_origin_repo": Model development repository with the Github CI workflow
+      "model_origin_ref": Branch of the model development repository related to the trigger of the CI workflow, 
       "model_origin_commit_SHA": Commit SHA related to the trigger of the CI workflow
       "model_origin_commit_msg": Commit message related to the trigger of the CI workflow
       "model_uploaded_utc": UTC timestamp of the automated model upload
@@ -54,23 +53,12 @@ def assert_model_md5(model_file):
             buf = f.read(DIGEST_BLOCK_SIZE)
         md5_hash = hasher.hexdigest()
     assert config["model_md5_hash"] == md5_hash
-    print("Model file MD5 assertion done.")
-
-
-def assert_model_pipeline_steps(model_obj):
-    """For demonstration purposes, asserts that the XGBoost model has the expected pipeline steps.
-    """
-    assert model_obj.steps[0][0] == "vect"
-    assert model_obj.steps[1][0] == "tfidf"
-    assert model_obj.steps[2][0] == "model"
-    print("Model object pipeline steps assertion done")
+    print("Model file's runtime MD5 hash equals to the upload time hash, great!")
 
 
 config = load_model_config()
 xgb_path, xgb_obj = load_model(config)
 assert_model_md5(xgb_path)
-assert_model_pipeline_steps(xgb_obj)
-print("All assertions are okay, we have a perfectly uploaded model!")
 
 
 # API calls will begin at the apply() method, with the request body passed as 'input'
