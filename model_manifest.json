@@ -1,1 +1,9 @@
-{"model_filepath": "asli/xgboost_automated_github/model_1cc4ef62f6611fe725ea3899ea0ead2e2328d26e.pkl", "model_origin_commit_SHA": "1cc4ef62f6611fe725ea3899ea0ead2e2328d26e", "model_origin_commit_msg": "Update README.md", "model_origin_repo": "algorithmiaio/githubactions-modeldeployment-demo-githubalgo", "model_origin_ref": "refs/heads/master", "model_uploaded_utc": "2021-02-05 04:44:58.513728", "model_md5_hash": "81393714f391c1e00a41d3c6970e4196"}
+{
+    "model_filepath": "./model.pkl",
+    "model_origin_commit_SHA": "COMMIT SHA OF THE WORKFLOW TRIGGER EVENT",
+    "model_origin_commit_msg": "COMMIT MSG OF THE WORKFLOW TRIGGER EVENT",
+    "model_origin_repo": "CURRENT GIT REPO OF THIS PROJECT",
+    "model_origin_ref": "BRANCH OF THE WORKFLOW TRIGGER EVENT",
+    "model_uploaded_utc": "2020-09-16 17:10:58.454731",
+    "model_md5_hash": "MD5 HASH OF MODEL FILE"
+}
