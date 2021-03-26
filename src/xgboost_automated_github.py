@@ -8,7 +8,7 @@ from pathlib import Path
 import hashlib
 
 
-# Test comment for Github Algo!
+# Testtest
 client = Algorithmia.client()
 
 
