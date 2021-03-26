@@ -8,7 +8,7 @@ from pathlib import Path
 import hashlib
 
 
-# Testtest
+# Test for zhilei!
 client = Algorithmia.client()
 
 
